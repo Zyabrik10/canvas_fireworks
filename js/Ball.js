@@ -11,7 +11,12 @@ export default class Ball {
       x: 0,
       y: 0,
     },
-    color = [colors[floor(random() * colors.length)]],
+    color = worldSettings.randomColors
+      ? `hsl(${randInt(
+          worldSettings.hslColorStart,
+          worldSettings.hslColorEnd
+        )}, 80%, 50%)`
+      : [colors[floor(random() * colors.length)]],
     radius = randInt(worldSettings.minRadius, worldSettings.maxRadius),
   }) {
     this.radius = radius;

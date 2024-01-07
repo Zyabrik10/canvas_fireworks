@@ -1,5 +1,5 @@
 import { canvas, ctx, worldSettings } from "./config.js";
-import { cos, pi, randInt, random, sin } from "./math.js";
+import { cos, randInt, random, sin } from "./math.js";
 import Ball from "./Ball.js";
 
 export let mdown = false;
@@ -7,14 +7,18 @@ export let mdown = false;
 let balls = [];
 
 function addBoom(x, y) {
-  let num = worldSettings.numbersOnSpawn;
-  let angle = (pi * 2) / num;
+  let num = worldSettings.numberOnSpawn;
+  let angle = worldSettings.startAngleSpread;
+  let angleStep =
+    (worldSettings.endAngleSpread - worldSettings.startAngleSpread) / num;
 
   for (let i = 0; i < num; i++) {
     const force = randInt(worldSettings.minForce, worldSettings.maxForce);
     let rand = random();
-    let vx = rand * cos(angle * i) * force * worldSettings.forceTimer;
-    let vy = rand * sin(angle * i) * force * worldSettings.forceTimer;
+    let vx = rand * cos(angle) * force * worldSettings.forceTimer;
+    let vy = rand * sin(angle) * force * worldSettings.forceTimer;
+
+    angle -= angleStep;
 
     balls.push(
       new Ball({
@@ -32,13 +36,26 @@ function addBoom(x, y) {
 }
 
 function update() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  if (worldSettings.glowEffect) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  } else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
 
   if (mdown) {
     worldSettings.forceTimer += worldSettings.forcePower;
   } else {
     worldSettings.forceTimer = 1;
+  }
+
+  if (worldSettings.auto) {
+    if (random() >= worldSettings.frequency) {
+      let x = randInt(0, canvas.width);
+      let y = randInt(0, canvas.height);
+
+      addBoom(x, y);
+    }
   }
 
   balls.forEach((e) => e.update());
