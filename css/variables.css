@@ -1,0 +1,5 @@
+:root {
+  /* Flex */
+  -flex-items: 4;
+  -flex-items-gap: 20px;
+}
