@@ -9,15 +9,7 @@ body {
 
 body {
   margin: 0;
-  padding: 10px;
   overflow: hidden;
-
-  height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }

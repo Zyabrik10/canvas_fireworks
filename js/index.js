@@ -2,7 +2,7 @@ import { canvas, ctx, worldSettings } from "./config.js";
 import { cos, randInt, random, sin } from "./math.js";
 import Ball from "./Ball.js";
 
-export let mdown = false;
+let mdown = false;
 
 let balls = [];
 
